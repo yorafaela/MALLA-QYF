@@ -65,3 +65,26 @@ h1 {
   font-size: 0.85em;
   margin-top: 6px;
 }
+.requisitos {
+  font-size: 0.75em;
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+.bloqueado .requisitos {
+  color: #f87171;
+}
+
+.anio {
+  margin-bottom: 60px;
+}
+
+.anio h2 {
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+
+.semestre h3 {
+  color: #a78bfa;
+  margin-bottom: 8px;
+}
