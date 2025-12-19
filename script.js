@@ -1,7 +1,9 @@
 
-/* ===========================
-   DATOS DE LA MALLA QYF
-   =========================== */
+/* =================================================
+   MALLA QYF – SCRIPT FINAL DEFINITIVO
+   ================================================= */
+
+/* ---------- DATOS ---------- */
 
 const ramos = [
   { id: "QFAR111", nombre: "Química General I", creditos: 4, semestre: 1, req: [] },
@@ -74,152 +76,146 @@ const ramos = [
 
   { id: "QFAR521", nombre: "Electiva Profesional II", creditos: 2, semestre: 10, req: ["QFAR216"] },
   { id: "QFAR522", nombre: "Farmacia Clínica II", creditos: 7, semestre: 10, req: ["QFAR511"] },
-  { id: "QFAR523", nombre: "Internado I / Unidad de Investigación I", creditos: 5, semestre: 10, req: ["QFAR426"] },
+  { id: "QFAR523", nombre: "Internado I / Unidad Investigación I", creditos: 5, semestre: 10, req: ["QFAR426"] },
   { id: "QFAR524", nombre: "Práctica Profesional III", creditos: 13, semestre: 10, req: ["QFAR222"] },
 
-  { id: "QFAR611", nombre: "Internado II / Unidad de Investigación II", creditos: 30, semestre: 11, req: ["QFAR523"] }
+  { id: "QFAR611", nombre: "Internado II / Unidad Investigación II", creditos: 30, semestre: 11, req: ["QFAR523"] }
 ];
 
-/* ===========================
-   ESTADO (con memoria)
-   =========================== */
+/* ---------- ESTADO ---------- */
 
 let aprobados = new Set(
   JSON.parse(localStorage.getItem("aprobados")) || []
 );
 
-/* ===========================
-   FUNCIONES
-   =========================== */
+/* ---------- FUNCIONES ---------- */
+
+function obtenerAnio(sem) {
+  return 2024 + Math.floor((sem - 1) / 2);
+}
+
+function nombreSemestre(sem) {
+  return sem % 2 === 0 ? "II semestre" : "I semestre";
+}
 
 function calcularCreditos() {
   let total = 0;
   aprobados.forEach(id => {
-    const ramo = ramos.find(r => r.id === id);
-    total += ramo.creditos;
+    total += ramos.find(r => r.id === id)?.creditos || 0;
   });
   document.getElementById("creditosTotales").innerText =
     `Créditos aprobados: ${total}`;
   return total;
 }
 
-function requisitosCumplidos(ramo) {
-  const okRamos = ramo.req.every(r => aprobados.has(r));
-  const okCred = ramo.reqCreditos ? calcularCreditos() >= ramo.reqCreditos : true;
+function totalCreditosCarrera() {
+  return ramos.reduce((a, r) => a + r.creditos, 0);
+}
+
+function requisitosCumplidos(r) {
+  const okRamos = r.req.every(x => aprobados.has(x));
+  const okCred = r.reqCreditos ? calcularCreditos() >= r.reqCreditos : true;
   return okRamos && okCred;
 }
 
-function obtenerAnio(semestre) {
-  return 2024 + Math.floor((semestre - 1) / 2);
-}
-
-function nombreSemestre(semestre) {
-  return semestre % 2 === 0 ? "II semestre" : "I semestre";
-}
-
-function creditosPorSemestre(semestre) {
-  let total = 0;
+function creditosPorSemestre(sem) {
+  let t = 0;
   aprobados.forEach(id => {
-    const ramo = ramos.find(r => r.id === id);
-    if (ramo.semestre === Number(semestre)) total += ramo.creditos;
+    const r = ramos.find(x => x.id === id);
+    if (r?.semestre === Number(sem)) t += r.creditos;
   });
-  return total;
+  return t;
 }
 
 function ramosDisponibles() {
   return ramos.filter(r => !aprobados.has(r.id) && requisitosCumplidos(r));
 }
 
-/* ===========================
-   RENDER
-   =========================== */
+function progresoCarrera() {
+  return Math.round((calcularCreditos() / totalCreditosCarrera()) * 100);
+}
+
+function estimarEgreso() {
+  const sems = [...aprobados].map(id => ramos.find(r => r.id === id)?.semestre || 1);
+  return obtenerAnio(Math.max(...sems, 1));
+}
+
+function disponiblesPorPeriodo() {
+  const out = {};
+  ramosDisponibles().forEach(r => {
+    const key = `${obtenerAnio(r.semestre)} – ${nombreSemestre(r.semestre)}`;
+    if (!out[key]) out[key] = [];
+    out[key].push(r);
+  });
+  return out;
+}
+
+/* ---------- RENDER ---------- */
 
 function render() {
-  const contenedor = document.getElementById("malla");
-  contenedor.innerHTML = "";
+  const cont = document.getElementById("malla");
+  cont.innerHTML = "";
 
+  /* Barra progreso */
+  const prog = progresoCarrera();
+  cont.innerHTML += `
+    <div class="progress-container">
+      <div class="progress-bar" style="width:${prog}%"></div>
+    </div>
+    <div class="egreso">
+      Progreso: ${prog}% · Año estimado de egreso: ${estimarEgreso()}
+    </div>
+  `;
+
+  /* Malla vertical */
   const estructura = {};
-
   ramos.forEach(r => {
-    const anio = obtenerAnio(r.semestre);
-    if (!estructura[anio]) estructura[anio] = {};
-    if (!estructura[anio][r.semestre]) estructura[anio][r.semestre] = [];
-    estructura[anio][r.semestre].push(r);
+    const a = obtenerAnio(r.semestre);
+    estructura[a] ??= {};
+    estructura[a][r.semestre] ??= [];
+    estructura[a][r.semestre].push(r);
   });
 
-  Object.keys(estructura).forEach(anio => {
-    const divAnio = document.createElement("div");
-    divAnio.className = "anio";
-    divAnio.innerHTML = `<h2>${anio}</h2>`;
+  Object.keys(estructura).forEach(a => {
+    cont.innerHTML += `<h2>${a}</h2>`;
+    Object.keys(estructura[a]).forEach(s => {
+      cont.innerHTML += `<h3>${nombreSemestre(s)}</h3>`;
+      if (creditosPorSemestre(s) > 30)
+        cont.innerHTML += `<p style="color:#f87171">⚠️ Más de 30 créditos</p>`;
 
-    Object.keys(estructura[anio]).forEach(sem => {
-      const divSem = document.createElement("div");
-      divSem.className = "semestre";
-      divSem.innerHTML = `<h3>${nombreSemestre(sem)}</h3>`;
-
-      const totalSem = creditosPorSemestre(sem);
-      if (totalSem > 30) {
-        const warn = document.createElement("div");
-        warn.style.color = "#f87171";
-        warn.style.fontSize = "0.85em";
-        warn.innerText = `⚠️ ${totalSem} créditos (máx. 30)`;
-        divSem.appendChild(warn);
-      }
-
-      const divRamos = document.createElement("div");
-      divRamos.className = "ramos";
-
-      estructura[anio][sem].forEach(ramo => {
-        const div = document.createElement("div");
-        div.className = "ramo";
-
-        const ok = requisitosCumplidos(ramo);
-
-        if (aprobados.has(ramo.id)) div.classList.add("aprobado");
-        if (!ok && !aprobados.has(ramo.id)) div.classList.add("bloqueado");
-
-        const reqTxt = ramo.req.length ? ramo.req.join(", ") : "Sin requisitos";
-        const credTxt = ramo.reqCreditos ? ` + ${ramo.reqCreditos} créditos` : "";
-
-        div.innerHTML = `
-          <strong>${ramo.nombre}</strong>
-          <div class="codigo">${ramo.id}</div>
-          <div class="creditos">${ramo.creditos} créditos</div>
-          <div class="requisitos">Req: ${reqTxt}${credTxt}</div>
+      estructura[a][s].forEach(r => {
+        const ok = requisitosCumplidos(r);
+        cont.innerHTML += `
+          <div class="ramo ${aprobados.has(r.id) ? "aprobado" : ""} ${!ok ? "bloqueado" : ""}"
+            onclick="${ok || aprobados.has(r.id) ? `toggle('${r.id}')` : ""}">
+            <strong>${r.nombre}</strong>
+            <div class="codigo">${r.id}</div>
+            <div class="creditos">${r.creditos} créditos</div>
+            <div class="requisitos">
+              Req: ${r.req.length ? r.req.join(", ") : "Sin requisitos"}
+              ${r.reqCreditos ? " + " + r.reqCreditos + " créditos" : ""}
+            </div>
+          </div>
         `;
-
-        div.onclick = () => {
-          if (!ok && !aprobados.has(ramo.id)) return;
-          aprobados.has(ramo.id) ? aprobados.delete(ramo.id) : aprobados.add(ramo.id);
-          localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
-          render();
-        };
-
-        divRamos.appendChild(div);
       });
-
-      divSem.appendChild(divRamos);
-      divAnio.appendChild(divSem);
     });
-
-    contenedor.appendChild(divAnio);
   });
 
-  const disp = ramosDisponibles();
-  const divDisp = document.createElement("div");
-  divDisp.style.marginTop = "40px";
-  divDisp.innerHTML = `<h2>👀 Ramos que puedes tomar ahora</h2>`;
+  /* Disponibles */
+  cont.innerHTML += `<h2>👀 Ramos que puedes tomar</h2>`;
+  const disp = disponiblesPorPeriodo();
+  Object.keys(disp).forEach(k => {
+    cont.innerHTML += `<h3>${k}</h3>`;
+    disp[k].forEach(r => {
+      cont.innerHTML += `<p>• ${r.id} – ${r.nombre}</p>`;
+    });
+  });
+}
 
-  if (disp.length === 0) {
-    divDisp.innerHTML += "<p>Nada disponible aún, paciencia 😔</p>";
-  } else {
-    disp.forEach(r =>
-      divDisp.innerHTML += `<p>• ${r.id} – ${r.nombre}</p>`
-    );
-  }
-
-  contenedor.appendChild(divDisp);
-  calcularCreditos();
+function toggle(id) {
+  aprobados.has(id) ? aprobados.delete(id) : aprobados.add(id);
+  localStorage.setItem("aprobados", JSON.stringify([...aprobados]));
+  render();
 }
 
 render();
