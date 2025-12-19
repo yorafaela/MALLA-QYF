@@ -108,51 +108,81 @@ function requisitosCumplidos(ramo) {
   return reqRamos && reqCreditos;
 }
 
+function obtenerAnio(semestre) {
+  return 2024 + Math.floor((semestre - 1) / 2);
+}
+
+function nombreSemestre(semestre) {
+  return semestre % 2 === 0 ? "II" : "I";
+}
+
 function render() {
   const contenedor = document.getElementById("malla");
   contenedor.innerHTML = "";
 
-  const semestres = [...new Set(ramos.map(r => r.semestre))];
+  const anios = {};
 
-  semestres.forEach(sem => {
-    const divSem = document.createElement("div");
-    divSem.className = "semestre";
-    divSem.innerHTML = `<h2>${sem}° semestre</h2>`;
+  ramos.forEach(ramo => {
+    const anio = obtenerAnio(ramo.semestre);
+    if (!anios[anio]) anios[anio] = {};
+    if (!anios[anio][ramo.semestre]) anios[anio][ramo.semestre] = [];
+    anios[anio][ramo.semestre].push(ramo);
+  });
 
-    const divRamos = document.createElement("div");
-    divRamos.className = "ramos";
+  Object.keys(anios).forEach(anio => {
+    const divAnio = document.createElement("div");
+    divAnio.className = "anio";
+    divAnio.innerHTML = `<h2>${anio}</h2>`;
 
-    ramos.filter(r => r.semestre === sem).forEach(ramo => {
-      const div = document.createElement("div");
-      div.className = "ramo";
+    Object.keys(anios[anio]).forEach(sem => {
+      const divSem = document.createElement("div");
+      divSem.className = "semestre";
+      divSem.innerHTML = `<h3>${nombreSemestre(sem)} semestre</h3>`;
 
-      if (aprobados.has(ramo.id)) div.classList.add("aprobado");
-      if (!requisitosCumplidos(ramo) && !aprobados.has(ramo.id))
-        div.classList.add("bloqueado");
+      const divRamos = document.createElement("div");
+      divRamos.className = "ramos";
 
-      div.innerHTML = `
-        <strong>${ramo.nombre}</strong>
-        <div class="codigo">${ramo.id}</div>
-        <div class="creditos">${ramo.creditos} créditos</div>
-      `;
+      anios[anio][sem].forEach(ramo => {
+        const div = document.createElement("div");
+        div.className = "ramo";
 
-      div.onclick = () => {
-        if (!requisitosCumplidos(ramo) && !aprobados.has(ramo.id)) return;
-        aprobados.has(ramo.id)
-          ? aprobados.delete(ramo.id)
-          : aprobados.add(ramo.id);
-        render();
-      };
+        const cumplidos = requisitosCumplidos(ramo);
 
-      divRamos.appendChild(div);
+        if (aprobados.has(ramo.id)) div.classList.add("aprobado");
+        if (!cumplidos && !aprobados.has(ramo.id))
+          div.classList.add("bloqueado");
+
+        const textoReq = ramo.req.length
+          ? ramo.req.join(", ")
+          : "Sin requisitos";
+
+        const textoCred =
+          ramo.reqCreditos ? ` + ${ramo.reqCreditos} créditos` : "";
+
+        div.innerHTML = `
+          <strong>${ramo.nombre}</strong>
+          <div class="codigo">${ramo.id}</div>
+          <div class="creditos">${ramo.creditos} créditos</div>
+          <div class="requisitos">Req: ${textoReq}${textoCred}</div>
+        `;
+
+        div.onclick = () => {
+          if (!cumplidos && !aprobados.has(ramo.id)) return;
+          aprobados.has(ramo.id)
+            ? aprobados.delete(ramo.id)
+            : aprobados.add(ramo.id);
+          render();
+        };
+
+        divRamos.appendChild(div);
+      });
+
+      divSem.appendChild(divRamos);
+      divAnio.appendChild(divSem);
     });
 
-    divSem.appendChild(divRamos);
-    contenedor.appendChild(divSem);
+    contenedor.appendChild(divAnio);
   });
 
   calcularCreditos();
 }
-
-render();
-
