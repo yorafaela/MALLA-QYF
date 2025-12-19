@@ -1,1 +1,67 @@
 
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f0f14;
+  color: #f5f5f5;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#creditosTotales {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.semestre {
+  margin-bottom: 40px;
+}
+
+.semestre h2 {
+  margin-bottom: 10px;
+  color: #a78bfa;
+}
+
+.ramos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.ramo {
+  border-radius: 14px;
+  padding: 12px;
+  background: #1b1b24;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid transparent;
+}
+
+.ramo:hover {
+  transform: scale(1.03);
+}
+
+.ramo.aprobado {
+  background: #1f2937;
+  border-color: #22c55e;
+  opacity: 0.9;
+}
+
+.ramo.bloqueado {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.codigo {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.creditos {
+  font-size: 0.85em;
+  margin-top: 6px;
+}
