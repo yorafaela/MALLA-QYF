@@ -88,3 +88,42 @@ h1 {
   color: #a78bfa;
   margin-bottom: 8px;
 }
+
+/* Malla vertical */
+.ramos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Barra de progreso */
+.progress-container {
+  width: 100%;
+  background: #1b1b24;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.progress-bar {
+  height: 16px;
+  background: linear-gradient(90deg, #22c55e, #38bdf8);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.egreso {
+  margin-top: 8px;
+  font-size: 0.9em;
+  opacity: 0.85;
+}
+
+.disponibles {
+  margin-top: 50px;
+}
+
+.disponibles h3 {
+  margin-top: 20px;
+  color: #a78bfa;
+}
+
