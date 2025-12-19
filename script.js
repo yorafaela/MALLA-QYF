@@ -42,7 +42,7 @@ const ramos = [
   { id: "QFAR312", nombre: "Biología Molecular", creditos: 4, semestre: 5, req: ["QFAR215"] },
   { id: "QFAR313", nombre: "Operaciones Unitarias", creditos: 5, semestre: 5, req: ["QFAR224"] },
   { id: "QFAR314", nombre: "Química Farmacéutica I", creditos: 6, semestre: 5, req: ["QFAR213","QFAR226"] },
-  { id: "QFAR315", nombre: "Electiva Profesional I", creditos: 2, semestre: 5, req: [] },
+  { id: "QFAR315", nombre: "Electiva Profesional I", creditos: 2, semestre: 5, req: ["QFAR216"] },
   { id: "QFAR316", nombre: "Microbiología", creditos: 5, semestre: 5, req: ["QFAR215"] },
   { id: "QFAR317", nombre: "Legislación Farmacéutica", creditos: 2, semestre: 5, req: ["QFAR214"] },
 
