@@ -1,6 +1,10 @@
 
+/* ===========================
+   DATOS DE LA MALLA QYF
+   =========================== */
+
 const ramos = [
-  // 1° SEMESTRE
+  // 1° SEMESTRE – 2024 I
   { id: "QFAR111", nombre: "Química General I", creditos: 4, semestre: 1, req: [] },
   { id: "QFAR112", nombre: "Matemáticas", creditos: 8, semestre: 1, req: [] },
   { id: "QFAR113", nombre: "Biología Celular", creditos: 6, semestre: 1, req: [] },
@@ -9,7 +13,7 @@ const ramos = [
   { id: "QFAR116", nombre: "Anatomía", creditos: 3, semestre: 1, req: [] },
   { id: "TNL", nombre: "TNL", creditos: 2, semestre: 1, req: [] },
 
-  // 2° SEMESTRE
+  // 2° SEMESTRE – 2024 II
   { id: "QFAR121", nombre: "Química General II", creditos: 8, semestre: 2, req: ["QFAR111","QFAR114"] },
   { id: "QFAR122", nombre: "Cálculo", creditos: 4, semestre: 2, req: ["QFAR112"] },
   { id: "QFAR123", nombre: "Fisiología I", creditos: 6, semestre: 2, req: ["QFAR113","QFAR116"] },
@@ -17,7 +21,7 @@ const ramos = [
   { id: "QFAR125", nombre: "Introducción a la Estadística", creditos: 2, semestre: 2, req: ["QFAR112"] },
   { id: "TNI", nombre: "TNI", creditos: 2, semestre: 2, req: [] },
 
-  // 3° SEMESTRE
+  // 3° SEMESTRE – 2025 I
   { id: "QFAR211", nombre: "Química Orgánica II", creditos: 6, semestre: 3, req: ["QFAR121","QFAR124"] },
   { id: "QFAR212", nombre: "Química Analítica", creditos: 8, semestre: 3, req: ["QFAR121","QFAR122"] },
   { id: "QFAR213", nombre: "Fisiología II", creditos: 4, semestre: 3, req: ["QFAR123"] },
@@ -25,7 +29,7 @@ const ramos = [
   { id: "QFAR215", nombre: "Bioquímica", creditos: 6, semestre: 3, req: ["QFAR113","QFAR124"] },
   { id: "QFAR216", nombre: "Ética", creditos: 2, semestre: 3, req: ["TNL"], reqCreditos: 59 },
 
-  // 4° SEMESTRE
+  // 4° SEMESTRE – 2025 II
   { id: "QFAR221", nombre: "Botánica", creditos: 6, semestre: 4, req: ["QFAR113","QFAR124"] },
   { id: "QFAR222", nombre: "Análisis Instrumental", creditos: 8, semestre: 4, req: ["QFAR212"] },
   { id: "QFAR223", nombre: "Fisiopatología", creditos: 4, semestre: 4, req: ["QFAR213"] },
@@ -33,7 +37,7 @@ const ramos = [
   { id: "QFAR225", nombre: "Administración de RRHH", creditos: 3, semestre: 4, req: ["QFAR214","QFAR216"] },
   { id: "QFAR226", nombre: "Introducción a la Química Farmacéutica", creditos: 2, semestre: 4, req: ["QFAR211"] },
 
-  // 5° SEMESTRE
+  // 5° SEMESTRE – 2026 I
   { id: "QFAR311", nombre: "Farmacognosia", creditos: 6, semestre: 5, req: ["QFAR211","QFAR221"] },
   { id: "QFAR312", nombre: "Biología Molecular", creditos: 4, semestre: 5, req: ["QFAR215"] },
   { id: "QFAR313", nombre: "Operaciones Unitarias", creditos: 5, semestre: 5, req: ["QFAR224"] },
@@ -42,7 +46,7 @@ const ramos = [
   { id: "QFAR316", nombre: "Microbiología", creditos: 5, semestre: 5, req: ["QFAR215"] },
   { id: "QFAR317", nombre: "Legislación Farmacéutica", creditos: 2, semestre: 5, req: ["QFAR214"] },
 
-  // 6° SEMESTRE
+  // 6° SEMESTRE – 2026 II
   { id: "QFAR321", nombre: "Biofarmacia", creditos: 6, semestre: 6, req: ["QFAR213","QFAR222"] },
   { id: "QFAR322", nombre: "Farmacología I", creditos: 7, semestre: 6, req: ["QFAR223","QFAR314"] },
   { id: "QFAR323", nombre: "Inmunología", creditos: 4, semestre: 6, req: ["QFAR223","QFAR312"] },
@@ -50,7 +54,7 @@ const ramos = [
   { id: "QFAR325", nombre: "Práctica Profesional I", creditos: 5, semestre: 6, req: ["QFAR216","QFAR225","QFAR317"] },
   { id: "QFAR326", nombre: "Bioestadística", creditos: 2, semestre: 6, req: ["QFAR112","QFAR216"] },
 
-  // 7° SEMESTRE
+  // 7° SEMESTRE – 2027 I
   { id: "QFAR411", nombre: "Tecnología Farmacéutica I", creditos: 7, semestre: 7, req: ["QFAR313","QFAR321"] },
   { id: "QFAR412", nombre: "Farmacología II", creditos: 8, semestre: 7, req: ["QFAR322","QFAR324"] },
   { id: "QFAR413", nombre: "Química Fisiológica y Patológica", creditos: 5, semestre: 7, req: ["QFAR222","QFAR323"] },
@@ -59,7 +63,7 @@ const ramos = [
   { id: "QFAR416", nombre: "Metodología de la Investigación", creditos: 2, semestre: 7, req: ["QFAR216","QFAR326"] },
   { id: "TIP1", nombre: "Taller Perfil de Egreso I", creditos: 2, semestre: 7, req: ["QFAR325"] },
 
-  // 8° SEMESTRE
+  // 8° SEMESTRE – 2027 II
   { id: "QFAR421", nombre: "Tecnología Farmacéutica II", creditos: 7, semestre: 8, req: ["QFAR411"] },
   { id: "QFAR422", nombre: "Farmacia Asistencial", creditos: 3, semestre: 8, req: ["QFAR225","QFAR414"] },
   { id: "QFAR423", nombre: "Nutrición", creditos: 4, semestre: 8, req: ["QFAR413","QFAR415"] },
@@ -68,7 +72,7 @@ const ramos = [
   { id: "QFAR426", nombre: "Seminario de Licenciatura", creditos: 4, semestre: 8, req: ["QFAR411","QFAR412","QFAR413","QFAR414","QFAR415","QFAR416","TIP1"] },
   { id: "TIP2", nombre: "Taller Perfil de Egreso II", creditos: 2, semestre: 8, req: ["TIP1"] },
 
-  // 9° SEMESTRE
+  // 9° SEMESTRE – 2028 I
   { id: "QFAR511", nombre: "Farmacia Clínica I", creditos: 7, semestre: 9, req: ["QFAR421","QFAR422","QFAR423","QFAR424","QFAR425","QFAR426","TIP2"] },
   { id: "QFAR512", nombre: "Cosmética", creditos: 5, semestre: 9, req: ["QFAR421"] },
   { id: "QFAR513", nombre: "Toxicología", creditos: 5, semestre: 9, req: ["QFAR412"] },
@@ -77,15 +81,19 @@ const ramos = [
   { id: "QFAR516", nombre: "Práctica Profesional II", creditos: 7, semestre: 9, req: ["QFAR325","QFAR412"] },
   { id: "TIP3", nombre: "Taller Perfil de Egreso III", creditos: 2, semestre: 9, req: ["TIP2"] },
 
-  // 10° SEMESTRE
+  // 10° SEMESTRE – 2028 II
   { id: "QFAR521", nombre: "Electiva Profesional II", creditos: 2, semestre: 10, req: ["QFAR216"] },
   { id: "QFAR522", nombre: "Farmacia Clínica II", creditos: 7, semestre: 10, req: ["QFAR511"] },
-  { id: "QFAR523", nombre: "Internado I / Unidad Investigación I", creditos: 5, semestre: 10, req: ["QFAR426"] },
+  { id: "QFAR523", nombre: "Internado I / Unidad de Investigación I", creditos: 5, semestre: 10, req: ["QFAR426"] },
   { id: "QFAR524", nombre: "Práctica Profesional III", creditos: 13, semestre: 10, req: ["QFAR222"] },
 
-  // 11° SEMESTRE
-  { id: "QFAR611", nombre: "Internado II / Unidad Investigación II", creditos: 30, semestre: 11, req: ["QFAR523"] },
+  // 11° SEMESTRE – 2029
+  { id: "QFAR611", nombre: "Internado II / Unidad de Investigación II", creditos: 30, semestre: 11, req: ["QFAR523"] },
 ];
+
+/* ===========================
+   LÓGICA
+   =========================== */
 
 let aprobados = new Set();
 
@@ -101,11 +109,9 @@ function calcularCreditos() {
 }
 
 function requisitosCumplidos(ramo) {
-  const reqRamos = ramo.req.every(r => aprobados.has(r));
-  const reqCreditos = ramo.reqCreditos
-    ? calcularCreditos() >= ramo.reqCreditos
-    : true;
-  return reqRamos && reqCreditos;
+  const okRamos = ramo.req.every(r => aprobados.has(r));
+  const okCred = ramo.reqCreditos ? calcularCreditos() >= ramo.reqCreditos : true;
+  return okRamos && okCred;
 }
 
 function obtenerAnio(semestre) {
@@ -113,64 +119,57 @@ function obtenerAnio(semestre) {
 }
 
 function nombreSemestre(semestre) {
-  return semestre % 2 === 0 ? "II" : "I";
+  return semestre % 2 === 0 ? "II semestre" : "I semestre";
 }
 
 function render() {
   const contenedor = document.getElementById("malla");
   contenedor.innerHTML = "";
 
-  const anios = {};
+  const estructura = {};
 
-  ramos.forEach(ramo => {
-    const anio = obtenerAnio(ramo.semestre);
-    if (!anios[anio]) anios[anio] = {};
-    if (!anios[anio][ramo.semestre]) anios[anio][ramo.semestre] = [];
-    anios[anio][ramo.semestre].push(ramo);
+  ramos.forEach(r => {
+    const anio = obtenerAnio(r.semestre);
+    if (!estructura[anio]) estructura[anio] = {};
+    if (!estructura[anio][r.semestre]) estructura[anio][r.semestre] = [];
+    estructura[anio][r.semestre].push(r);
   });
 
-  Object.keys(anios).forEach(anio => {
+  Object.keys(estructura).forEach(anio => {
     const divAnio = document.createElement("div");
     divAnio.className = "anio";
     divAnio.innerHTML = `<h2>${anio}</h2>`;
 
-    Object.keys(anios[anio]).forEach(sem => {
+    Object.keys(estructura[anio]).forEach(sem => {
       const divSem = document.createElement("div");
       divSem.className = "semestre";
-      divSem.innerHTML = `<h3>${nombreSemestre(sem)} semestre</h3>`;
+      divSem.innerHTML = `<h3>${nombreSemestre(sem)}</h3>`;
 
       const divRamos = document.createElement("div");
       divRamos.className = "ramos";
 
-      anios[anio][sem].forEach(ramo => {
+      estructura[anio][sem].forEach(ramo => {
         const div = document.createElement("div");
         div.className = "ramo";
 
-        const cumplidos = requisitosCumplidos(ramo);
+        const ok = requisitosCumplidos(ramo);
 
         if (aprobados.has(ramo.id)) div.classList.add("aprobado");
-        if (!cumplidos && !aprobados.has(ramo.id))
-          div.classList.add("bloqueado");
+        if (!ok && !aprobados.has(ramo.id)) div.classList.add("bloqueado");
 
-        const textoReq = ramo.req.length
-          ? ramo.req.join(", ")
-          : "Sin requisitos";
-
-        const textoCred =
-          ramo.reqCreditos ? ` + ${ramo.reqCreditos} créditos` : "";
+        const reqTexto = ramo.req.length ? ramo.req.join(", ") : "Sin requisitos";
+        const credTexto = ramo.reqCreditos ? ` + ${ramo.reqCreditos} créditos` : "";
 
         div.innerHTML = `
           <strong>${ramo.nombre}</strong>
           <div class="codigo">${ramo.id}</div>
           <div class="creditos">${ramo.creditos} créditos</div>
-          <div class="requisitos">Req: ${textoReq}${textoCred}</div>
+          <div class="requisitos">Req: ${reqTexto}${credTexto}</div>
         `;
 
         div.onclick = () => {
-          if (!cumplidos && !aprobados.has(ramo.id)) return;
-          aprobados.has(ramo.id)
-            ? aprobados.delete(ramo.id)
-            : aprobados.add(ramo.id);
+          if (!ok && !aprobados.has(ramo.id)) return;
+          aprobados.has(ramo.id) ? aprobados.delete(ramo.id) : aprobados.add(ramo.id);
           render();
         };
 
@@ -186,3 +185,5 @@ function render() {
 
   calcularCreditos();
 }
+
+render();
